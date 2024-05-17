@@ -31,74 +31,30 @@ class TaskManagement {
 
     public void deleteTask(int taskId) {
    	 tasks.remove(taskId);
+	 saveTasksToFile();
+
+    }
+    public void printAllTasks() {
+        // ...
+        saveTasksToFile();
     }
 
-    public void printAllTask() {
-   	 tasks.forEach((key, task) -> {
-   		 System.out.print(task.getId() + " ");
-   		 System.out.print(task.getName() + " ");
-   		 System.out.println(task.isDone());
-   	 }
-   	 );
+	   public void printTasksByPriority(String priority) {
+        // ...
     }
 
-    public void printTaskByPriority(String priority) {
-   	 System.out.println("Tareas de prioridad: " + priority);
-   	 for (Task task: lists.get(priority)) {
-   		 System.out.print(task.getId() + " ");
-   		 System.out.print(task.getName() + " ");
-   		 System.out.println(task.isDone());
-   	 }
+    private void loadTaskFromfile() {
+		try (BufferedReader reader = new BufferedReader(new
+		FileReader(fileName))) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				String[] parts = line.split(",");
+			Task task = new Task(fields[0]);
+                task.setPriority(fields[1]);
+                // ...
+                tasks.put(task.getId(), task);
+            }
+        } catch (Exception e) {
+            System.out.println("Error loading tasks from file: " + e.getMessage());
+        }
     }
-}
-
-class Task
-{
-    private static int numInstances = 0;
-    private int id;
-    private String name;
-    private boolean isDone;
-
-    public Task(String name) {
-   	 this.name = name;
-   	 this.isDone = false;
-   	 this.id = ++numInstances;
-    }
-
-    public void done() {
-   	 this.isDone = true;
-    }
-
-    public int getId() {
-   	 return this.id;
-    }
-
-    public String getName() {
-   	 return this.name;
-    }
-
-    public boolean isDone() {
-   	 return this.isDone;
-    }
-}
-
-class Main
-{
-    public static void main(String[] args) {
-   	 TaskManagement manager = new TaskManagement();
-   	 System.out.println("Add task");
-   	 manager.addTask("Aprobar Programacion", "Alta");
-   	 System.out.println("Hacemos Print de todo");
-   	 manager.printAllTask();
-   	 System.out.println("Hacemos Print de prioridad");
-   	 manager.printTaskByPriority("Alta");
-   	 System.out.println("Hacemos que la tarea este done");
-   	 manager.doneTask(1);
-   	 System.out.println("Hacemos Print de todo");
-   	 manager.printAllTask();
-   	 System.out.println("Eliminamos la tarea");
-   	 manager.deleteTask(1);
-   	 System.out.println("Hacemos Print de todo");
-   	 manager.printAllTask();
-    }
-}
