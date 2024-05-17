@@ -5,17 +5,12 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-class TaskManagement
-{
-    HashMap<String, ArrayList<Task>> lists;
-    HashMap<Integer, Task> tasks;
-
-    public TaskManagement() {
-   	 lists = new HashMap<String, ArrayList<Task>>();
-   	 lists.put("Baja", new ArrayList<Task>());
-   	 lists.put("Media", new ArrayList<Task>());
-   	 lists.put("Alta", new ArrayList<Task>());
-   	 tasks = new HashMap<Integer, Task>();
+class TaskManagement {
+	private String fileName;
+  
+    public TaskManagement(String fileName) {
+		this.filename = fileName;
+		loadTasksFromfile();
     }
 
     public void addTask(String taskName, String priority) {
