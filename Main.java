@@ -1,69 +1,109 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Welcome to Task Management System!");
-        System.out.println("Enter the name of the file to store tasks:");
-        String filename = System.console().readLine();
-        TaskManagement taskManagement = new TaskManagement(filename);
+        TaskManagement taskManagement = new TaskManagement();
+        Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Enter one of the following options:");
-            System.out.println("1. Add task");
-            System.out.println("2. Modify task");
-            System.out.println("3. Delete task");
-            System.out.println("4. List tasks");
-            System.out.println("5. Quit");
-
-            int option = Integer.parseInt(System.console().readLine());
+            System.out.println("1. Agregar tarea");
+            System.out.println("2. Ver tareas");
+            System.out.println("3. Salir");
+            System.out.print("Elija una opción: ");
+            int option = scanner.nextInt();
 
             switch (option) {
                 case 1:
-                    System.out.println("Enter task title:");
-                    String title = System.console().readLine();
-                    System.out.println("Enter task description:");
-                    String description = System.console().readLine();
-                    System.out.println("Enter task deadline:");
-                    String deadline = System.console().readLine();
-                    System.out.println("Enter task status:");
-                    String status = System.console().readLine();
-                    Task task = new Task(title, description, deadline, status);
-                    taskManagement.addTask(task);
+                    System.out.print("Ingrese título: ");
+                    String title = scanner.next();
+                    System.out.print("Ingrese descripción: ");
+                    String description = scanner.next();
+                    System.out.print("Ingrese fecha límite: ");
+                    String deadline = scanner.next();
+                    taskManagement.addTask(title, description, deadline);
                     break;
                 case 2:
-                    System.out.println("Enter task title to modify:");
-                    title = System.console().readLine();
-                    for (Task t : taskManagement.tasks) {
-                        if (t.getTitle().equals(title)) {
-                            System.out.println("Enter new task title:");
-                            t.setTitle(System.console().readLine());
-                            System.out.println("Enter new task description:");
-                            t.setDescription(System.console().readLine());
-                            System.out.println("Enter new task deadline:");
-                            t.setDeadline(System.console().readLine());
-                            System.out.println("Enter new task status:");
-                            t.setStatus(System.console().readLine());
-                            break;
-                        }
+                    for (Task t : taskManagement.getTasksList()) {
+                        System.out.println("Título: " + t.getTitle());
+                        System.out.println("Descripción: " + t.getDescription());
+                        System.out.println("Fecha límite: " + t.getDeadline());
+                        System.out.println("Estado: " + t.getStatus());
                     }
                     break;
                 case 3:
-                    System.out.println("Enter task title to delete:");
-                    title = System.console().readLine();
-                    for (Task t : taskManagement.tasks) {
-                        if (t.getTitle().equals(title)) {
-                            taskManagement.deleteTask(t);
-                            break;
-                        }
-                    }
-                    break;
-                case 4:
-                    taskManagement.listTasks();
-                    break;
-                case 5:
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Invalid option");
+                    System.out.println("Opción inválida. Por favor, inténtalo de nuevo.");
             }
+        }
+    }
+
+    public static class TaskManagement {
+        private List<Task> tasks = new ArrayList<>();
+
+        public void addTask(String title, String description, String deadline) {
+            Task task = new Task();
+            task.setTitle(title);
+            task.setDescription(description);
+            task.setDeadline(deadline);
+            tasks.add(task);
+        }
+
+        public List<Task> getTasksList() {
+            return tasks;
+        }
+
+        public void getTasks() {
+            for (Task t : tasks) {
+                System.out.println("Título: " + t.getTitle());
+                System.out.println("Descripción: " + t.getDescription());
+                System.out.println("Fecha límite: " + t.getDeadline());
+                System.out.println("Estado: " + t.getStatus());
+            }
+        }
+    }
+
+    public static class Task {
+        private String title;
+        private String description;
+        private String deadline;
+        private String status;
+
+        public Task() {}
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setDeadline(String deadline) {
+            this.deadline = deadline;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getDeadline() {
+            return deadline;
+        }
+
+        public String getStatus() {
+            return status;
         }
     }
 }
