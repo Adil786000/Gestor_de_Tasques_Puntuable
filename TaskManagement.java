@@ -14,13 +14,19 @@ class TaskManagement {
     }
 
     public void addTask(String taskName, String priority) {
-   	 Task task = new Task(taskName);
-   	 lists.get(priority).add(task);
-   	 tasks.put(task.getId(), task);
+		
+		tasks.put(task.getId(), task);
+		saveTasksToFile();
+	 
     }
 
-    public void doneTask(int taskId) {
-   	 tasks.get(taskId).done();
+    public void modifyTask(int taskId, String taskName) {
+		Task task = tasks.get(taskId);
+		if (task != null) {
+			task.setName(taskName);
+			saveTasksToFile();
+		}
+
     }
 
     public void deleteTask(int taskId) {
